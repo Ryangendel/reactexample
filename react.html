@@ -1,47 +1,66 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset='UTF-8'>
     <script src='https://unpkg.com/react@16.3.1/umd/react.production.min.js'></script>
     <script src='https://unpkg.com/react-dom@16.3.1/umd/react-dom.production.min.js'></script>
     <script src='https://unpkg.com/react-router-dom@5.0.0/umd/react-router-dom.min.js'></script>
     <script src='https://unpkg.com/babel-standalone@6.26.0/babel.js'></script>
-    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin ></script>
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin ></script>
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
 </head>
 
 <body>
     <div id='root'></div>
-    
+
     <script type='text/babel'>
-        const DogName = (props)=>{
+        const DogName = (props) => {
             console.log("---------")
-            console.log(props.data)
+            console.log(props.changeSetCurrentUserState("HUNTER"))
             console.log("---------")
-            
-            return(
+
+            return (
                 <div>
-                    {props.data.map(expendatures=>{
-                        return(
-                    <h3>You spent {expendatures.price} at {expendatures.company} </h3>
+                    {props.data.map(expendatures => {
+                        return (
+                            <h3>You spent {expendatures.price} at {expendatures.company} </h3>
                         )
                     })}
                 </div>
             )
         }
 
-//TODO:Add a product name
-        const App = () => { 
+        //TODO:Add a product name
+        const App = () => {
+            const [value, setValue] = React.useState([{ company: "Monroes", price: 19 }, { company: "backcountry", price: 100 }, { company: "rei", price: 700 }])
+            const [user, setUser] = React.useState("Ryan")
+            const [dog, setDog] = React.useState("Runa")
+            const [adopted, setAdopted] = React.useState(true)
+            const [currentUser, setCurrentUser] = React.useState("")
 
-             return(
+            var handleChange=(e)=>{
+                e.preventDefault()
+                console.log("---------")
+                setCurrentUser(e.target.value)
+                console.log("---------")
+            }
+
+            return (
                 <div>
                     <h1>Hello World!!!!</h1>
-                    <DogName data={[{company:"Monroes", price:15},{company:"backcountry", price:100},{company:"rei", price:700}]}/>
+                    <form>
+                        <label>Enter your name:
+                            <input type="text" onChange={handleChange}/>
+                        </label>
+                    </form>
+                    <DogName data={value} changeSetCurrentUserState={setCurrentUser}/>
+                    <h1>{currentUser}</h1>
                 </div>
             )
         }
 
-        ReactDOM.render(<App/>, document.querySelector('#root'));
+        ReactDOM.render(<App />, document.querySelector('#root'));
     </script>
 
 </body>
